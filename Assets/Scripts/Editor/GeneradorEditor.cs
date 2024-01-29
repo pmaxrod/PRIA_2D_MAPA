@@ -16,7 +16,7 @@ public class GeneradorEditor : Editor
 
         Generador generador = (Generador)target;
 
-        if (GUILayout.Button("Generar Mapa Mapa"))
+        if (GUILayout.Button("Generar Mapa"))
         {
             generador.GenerarMapa();
         }
