@@ -71,6 +71,7 @@ public class Generador : MonoBehaviour
     [Header("Automata celular")]
     [Range(0, 1)]
     [SerializeField] private float porcentajeRelleno = 0.45f;
+    [SerializeField] private int totalPasadas = 1;
 
     [Header("Elegir Algoritmo")]
     [SerializeField] private Algoritmo algoritmo = Algoritmo.PERLIN_NOISE;
@@ -160,8 +161,17 @@ public class Generador : MonoBehaviour
                 break;
 
             case Algoritmo.MAPA_ALEATORIO:
-                mapa = Algoritmos.GenerarMapaAleatorio(ancho, alto, semilla, porcentajeRelleno,
-                    bordesSonMuros);
+                mapa = Algoritmos.GenerarMapaAleatorio(ancho, alto, semilla, porcentajeRelleno, bordesSonMuros);
+                break;
+
+            case Algoritmo.AUTOMATA_CELULARMOORE:
+                mapa = Algoritmos.GenerarMapaAleatorio(ancho, alto, semilla, porcentajeRelleno, bordesSonMuros);
+                mapa = Algoritmos.AutomataCelularMoore(mapa, totalPasadas, bordesSonMuros);
+                break;
+
+            case Algoritmo.AUTOMATA_CELULAR_VONNEUMAN:
+                mapa = Algoritmos.GenerarMapaAleatorio(ancho, alto, semilla, porcentajeRelleno, bordesSonMuros);
+                mapa = Algoritmos.AutomataCelularVonNeuman(mapa, totalPasadas, bordesSonMuros);
                 break;
 
         }

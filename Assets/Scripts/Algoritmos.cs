@@ -483,4 +483,102 @@ public class Algoritmos
         }
         return mapa;
     }
+
+    public static int LosetasVecinas(int[,] _mapa, int _x, int _y, bool _incluirDiagonales)
+    {
+        // contar las losetas vecinas
+        int totalVecinas = 0;
+
+        for (int vecinoX = _x - 1; vecinoX <= _x + 1; vecinoX++)
+        {
+            for (int vecinoY = _y - 1; vecinoX <= _y + 1; vecinoY++)
+            {
+                if (vecinoX >= 0 && vecinoX <= _mapa.GetUpperBound(0) && vecinoY >= 0 && vecinoY <= _mapa.GetUpperBound(1))
+                {
+                    // ignorar la posición de central (_x,_y)
+
+                    // sin incluir las diagonales
+                    //      N 
+                    // N    T    N
+                    //      N
+
+                    // incluyendo las diagonales
+                    // N    N    N 
+                    // N    T    N
+                    // N    N    N
+
+                    if ((vecinoX != _x || vecinoY != _y) && (_incluirDiagonales && vecinoX == _x || vecinoY == _y))
+                    {
+                        // sumar las casillas que tienen 1, y así sabremos las casillas que tienen vecinas
+                        totalVecinas += _mapa[vecinoX, vecinoY];
+                    }
+                }
+            }
+        }
+        return totalVecinas;
+    }
+
+    public static int[,] AutomataCelularMoore(int[,] _mapa, int _totalDePasadas, bool _bordesSonMuros)
+    {
+        for (int i = 0; i < _totalDePasadas; i++)
+        {
+            for (int x = 0; x <= _mapa.GetUpperBound(0); x++)
+            {
+                for (int y = 0; y <= _mapa.GetUpperBound(1); y++)
+                {
+                    // Incluye las diagonales
+                    int totalVecinas = LosetasVecinas(_mapa, x, y, true);
+
+                    if (_bordesSonMuros && (x == 0 || x == _mapa.GetUpperBound(0) || y == 0 || y == _mapa.GetUpperBound(1)))
+                    {
+                        _mapa[x, y] = 1;
+                    }
+                    // Si tenemos más de 4 vecinos, ponemos suelo - VIVE
+                    else if (totalVecinas > 4)
+                    {
+                        _mapa[x, y] = 1;
+                    }
+                    else if (totalVecinas < 4)
+                    {
+                        _mapa[x, y] = 0;
+                    }
+
+                    // si tenemos exactamente 4 vecinos, no cambiamos nada
+                }
+            }
+        }
+        return _mapa;
+    }
+
+    public static int[,] AutomataCelularVonNeuman(int[,] _mapa, int _totalDePasadas, bool _bordesSonMuros)
+    {
+        for (int i = 0; i < _totalDePasadas; i++)
+        {
+            for (int x = 0; x <= _mapa.GetUpperBound(0); x++)
+            {
+                for (int y = 0; y <= _mapa.GetUpperBound(1); y++)
+                {
+                    // Incluye las diagonales
+                    int totalVecinas = LosetasVecinas(_mapa, x, y, false);
+
+                    if (_bordesSonMuros && (x == 0 || x == _mapa.GetUpperBound(0) || y == 0 || y == _mapa.GetUpperBound(1)))
+                    {
+                        _mapa[x, y] = 1;
+                    }
+                    // Si tenemos más de 2 vecinos, ponemos suelo - VIVE
+                    else if (totalVecinas > 2)
+                    {
+                        _mapa[x, y] = 1;
+                    }
+                    else if (totalVecinas < 2)
+                    {
+                        _mapa[x, y] = 0;
+                    }
+
+                    // si tenemos exactamente 2 vecinos, no cambiamos nada
+                }
+            }
+        }
+        return _mapa;
+    }
 }
