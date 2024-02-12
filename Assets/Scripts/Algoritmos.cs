@@ -26,6 +26,8 @@ public class Algoritmos
         return mapa;
     }
 
+    #region algoritmos
+
     public static int[,] PerlinNoise(int[,] _mapa, float _semilla)
     {
         // altura a la que va a ir el suelo;
@@ -184,6 +186,9 @@ public class Algoritmos
         }
         return _mapa;
     }
+    #endregion
+
+    #region cuevas
 
     //------------------------------------------------------------------
     public static int[,] PerlinNoise_Cueva(int[,] _mapa, float _modificador, bool _bordesSonMuros)
@@ -454,7 +459,9 @@ public class Algoritmos
         }
         return _mapa;
     }
-
+    #endregion
+    
+    #region automatas_celulares
     //--------------------------------------------------------------------------------
     public static int[,] GenerarMapaAleatorio(int _ancho, int _alto, float _semilla,
         float _porcentajeRelleno, bool _bordesSonMuros)
@@ -507,7 +514,7 @@ public class Algoritmos
                     // N    T    N
                     // N    N    N
 
-                    if ((vecinoX != _x || vecinoY != _y) && (_incluirDiagonales && vecinoX == _x || vecinoY == _y))
+                    if ((vecinoX != _x || vecinoY != _y) && (_incluirDiagonales || (vecinoX == _x || vecinoY == _y)))
                     {
                         // sumar las casillas que tienen 1, y así sabremos las casillas que tienen vecinas
                         totalVecinas += _mapa[vecinoX, vecinoY];
@@ -581,4 +588,5 @@ public class Algoritmos
         }
         return _mapa;
     }
+    #endregion
 }
